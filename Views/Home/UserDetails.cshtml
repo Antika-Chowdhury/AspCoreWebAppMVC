@@ -1,0 +1,60 @@
+﻿@model AspCoreWebAppMVC.Models.User
+
+@{
+    ViewData["Title"] = "UserDetails";
+}
+
+<h1>User Details</h1>
+
+<div class="row">
+    <div class="col-sm-6">
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Id)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+            <dt class="col-sm-4">
+                Uploaded File Name
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.PdfFileName)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-sm-6">
+        <div>
+            <dt class="col-sm-4">
+                Uploaded File
+            </dt>
+            <dd class="col-sm-8">
+                <embed src="data:application/pdf;base64,@Model.PdfBase64Data" type="application/pdf" width="100%" height="600px" />
+            </dd>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <a asp-action="AllUserList">Back to List</a>
+    </div>
+</div>

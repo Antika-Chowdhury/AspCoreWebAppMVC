@@ -1,0 +1,77 @@
+﻿@model AspCoreWebAppMVC.Models.User
+
+@{
+    ViewData["Title"] = "AddUser";
+}
+
+<h1>Add User</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddUser" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PdfFile" class="control-label">PDF File</label>
+                <input type="file" name="PdfFile" id="PdfFile" class="form-control" accept=".pdf" />
+                <span id="pdfError" class="text-danger"></span>
+                <span asp-validation-for="PdfFile" class="text-danger"></span> <br />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="AllUserList">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function (event) {
+            var fileInput = document.getElementById('PdfFile');
+            var selectedFile = fileInput.files[0];
+
+            if (selectedFile && !selectedFile.name.toLowerCase().endsWith('.pdf')) {
+                // File is not in PDF format, show custom error message
+                event.preventDefault();
+                fileInput.setCustomValidity('File must be in PDF format.');
+                document.getElementById('pdfError').innerText = 'File must be in PDF format.';
+            } else {
+                // Reset any existing error message
+                fileInput.setCustomValidity('');
+                document.getElementById('pdfError').innerText = '';
+                if (selectedFile) {
+                    // File is valid, read it as base64 and set the PdfFileName field value
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        document.getElementById('PdfFileName').value = selectedFile.name; // Store the filename
+                    };
+                    reader.readAsDataURL(selectedFile);
+                }
+            }
+        });
+    </script>
+
+
+}

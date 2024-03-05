@@ -1,7 +1,19 @@
+using Microsoft.EntityFrameworkCore;
+using AspCoreWebAppMVC.Data;
+using AspCoreWebAppMVC.Repositories.Implementation;
+using AspCoreWebAppMVC.Repositories.Interfaces;
+using AspCoreWebAppMVC.Utility;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ApplicationContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DevelopmentDB"));
+});
+builder.Services.AddScoped<IUser, UserRepository>();
+builder.Services.AddScoped<IUserUtility, UserUtilityRepository>();
 
 var app = builder.Build();
 
@@ -22,6 +34,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=AllUserList}/{id?}");
 
 app.Run();

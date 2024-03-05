@@ -1,0 +1,58 @@
+﻿@model IEnumerable<AspCoreWebAppMVC.Models.User>
+
+@{
+    ViewData["Title"] = "AllUserList";
+}
+
+<h1>All User List</h1>
+
+<p>
+    <a asp-action="AddUser">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                PhoneNumber
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Uploaded File
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    @user.Id
+                </td>
+                <td>
+                    <a asp-action="UserDetails" asp-controller="Home" asp-route-id="@user.Id">@user.Name</a>
+                </td>
+                <td>
+                    @user.PhoneNumber
+                </td>
+                <td>
+                    @user.Address
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(user.PdfBase64Data))
+                    {
+                        <a href="data:application/pdf;base64,@user.PdfBase64Data" download="@user.PdfFileName" >@user.PdfFileName</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
